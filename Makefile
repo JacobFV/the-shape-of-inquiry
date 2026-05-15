@@ -1,34 +1,24 @@
-# The Shape of Inquiry — PDF and web build
-#
-#   make pdf    — compile LaTeX to PDF
-#   make html   — regenerate index.html from LaTeX (pandoc + build.mjs)
-#   make all    — pdf + html
-#   make clean  — remove build outputs and LaTeX aux files
-#
-# Requirements:
-#   pdf:  latexmk (TeX Live), robot_lab_scene.png
-#   html: pandoc, node
+SHELL := /bin/bash
 
-TEX     := the_shape_of_inquiry.tex
-PDF     := $(TEX:.tex=.pdf)
-HTML    := index.html
-FIG     := robot_lab_scene.png
-PANDOC  := .paper-pandoc.html
+TEX      := main.tex
+OUT      := the_shape_of_inquiry
+BUILD    := build
+WEB      := web
+PDF      := $(OUT).pdf
 
-.PHONY: all pdf html web clean cleanall
+.PHONY: tex2pdf tex2web clean
 
-all: pdf html
+tex2pdf:
+	mkdir -p $(BUILD)
+	latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=$(BUILD) -jobname=$(OUT) $(TEX)
+	cp $(BUILD)/$(OUT).pdf $(PDF)
 
-pdf: $(TEX) $(FIG)
-	latexmk -pdf -interaction=nonstopmode -halt-on-error $(TEX)
-
-html: $(TEX) build.mjs paper.css
-	node build.mjs
-
-web: html
+tex2web: tex2pdf
+	rm -rf $(WEB)
+	mkdir -p $(WEB)/pages
+	pdftoppm -png -r 144 $(PDF) $(WEB)/pages/page
+	python3 scripts/pdf_pages_to_web.py
 
 clean:
-	-latexmk -C $(TEX)
-	rm -f $(PANDOC) $(HTML)
-
-cleanall: clean
+	rm -rf $(BUILD) $(WEB) $(PDF)
+	latexmk -C -outdir=$(BUILD) -jobname=$(OUT) $(TEX) || true
