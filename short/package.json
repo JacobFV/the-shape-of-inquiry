@@ -1,0 +1,25 @@
+{
+  "name": "shape-of-inquiry-technical-short-v2",
+  "version": "0.2.0",
+  "private": true,
+  "description": "A 3-minute vertical technical cinematic Remotion short for The Shape of Inquiry.",
+  "scripts": {
+    "dev": "remotion studio src/index.tsx",
+    "render": "remotion render src/index.tsx InquiryShortVertical out/the-shape-of-inquiry-vertical.mp4",
+    "render:horizontal": "remotion render src/index.tsx InquiryShortWide out/the-shape-of-inquiry-wide.mp4",
+    "render:still": "remotion still src/index.tsx InquiryShortVertical out/still.png --frame=1800",
+    "compositions": "remotion compositions src/index.tsx",
+    "clean": "rm -rf out/*.mp4 out/*.png .cache"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "remotion": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
+  }
+}
