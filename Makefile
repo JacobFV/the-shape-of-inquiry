@@ -14,10 +14,7 @@ tex2pdf:
 	cp $(BUILD)/$(OUT).pdf $(PDF)
 
 tex2web: tex2pdf
-	rm -rf $(WEB)
-	mkdir -p $(WEB)/pages
-	pdftoppm -png -r 144 $(PDF) $(WEB)/pages/page
-	python3 scripts/pdf_pages_to_web.py
+	python3 scripts/build_web.py $(TEX) $(PDF) $(WEB)
 
 clean:
 	rm -rf $(BUILD) $(WEB) $(PDF)
