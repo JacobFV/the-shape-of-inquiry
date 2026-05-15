@@ -1,0 +1,22 @@
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.pdf
+
+# HTML build (pandoc temp)
+.paper-pandoc.html
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*~
+*.swp
