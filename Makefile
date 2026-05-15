@@ -3,10 +3,10 @@
 #   make pdf    — compile LaTeX to PDF
 #   make html   — regenerate index.html from LaTeX (pandoc + build.mjs)
 #   make all    — pdf + html
-#   make clean  — remove LaTeX aux files and pandoc temp
+#   make clean  — remove build outputs and LaTeX aux files
 #
 # Requirements:
-#   pdf:  latexmk (TeX Live)
+#   pdf:  latexmk (TeX Live), robot_lab_scene.png
 #   html: pandoc, node
 
 TEX     := the_shape_of_inquiry.tex
@@ -19,21 +19,16 @@ PANDOC  := .paper-pandoc.html
 
 all: pdf html
 
-pdf: $(PDF)
-
-$(PDF): $(TEX) $(FIG)
+pdf: $(TEX) $(FIG)
 	latexmk -pdf -interaction=nonstopmode -halt-on-error $(TEX)
 
-html: $(HTML)
-
-$(HTML): $(TEX) build.mjs paper.css
+html: $(TEX) build.mjs paper.css
 	node build.mjs
 
 web: html
 
 clean:
-	-latexmk -c $(TEX)
-	rm -f $(PANDOC)
+	-latexmk -C $(TEX)
+	rm -f $(PANDOC) $(HTML)
 
 cleanall: clean
-	rm -f $(PDF)
