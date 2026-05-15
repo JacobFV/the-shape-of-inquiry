@@ -1,0 +1,985 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{libertinus}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,shapes.geometric,shapes.misc,shapes.symbols,shapes.callouts,backgrounds,decorations.pathmorphing}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{natbib}
+\usepackage{caption}
+
+\definecolor{ink}{HTML}{15171A}
+\definecolor{muted}{HTML}{5C6670}
+\definecolor{softblue}{HTML}{EAF2FF}
+\definecolor{blue}{HTML}{2F5D9C}
+\definecolor{softgreen}{HTML}{ECF7EF}
+\definecolor{green}{HTML}{2F7D4A}
+\definecolor{softamber}{HTML}{FFF5E5}
+\definecolor{amber}{HTML}{996A21}
+\definecolor{softred}{HTML}{FFF0F0}
+\definecolor{red}{HTML}{9C2F2F}
+\definecolor{softpurple}{HTML}{F5F0FF}
+\definecolor{purple}{HTML}{6B4CA3}
+\definecolor{softgray}{HTML}{F6F7F8}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={The Shape of Inquiry},
+  pdfauthor={Jacob}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.74em}
+\setlist[itemize]{leftmargin=1.2em, itemsep=0.13em, topsep=0.1em}
+\setlist[enumerate]{leftmargin=1.45em, itemsep=0.16em, topsep=0.1em}
+\renewcommand{\baselinestretch}{1.035}
+\captionsetup{font=small, labelfont=bf}
+
+\titleformat{\section}{\Large\bfseries\color{ink}}{\thesection}{0.55em}{}
+\titleformat{\subsection}{\large\bfseries\color{ink}}{\thesubsection}{0.55em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{ink}}{\thesubsubsection}{0.55em}{}
+\titlespacing*{\section}{0pt}{1.55em}{0.45em}
+\titlespacing*{\subsection}{0pt}{1.05em}{0.28em}
+\titlespacing*{\subsubsection}{0pt}{0.75em}{0.20em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\color{muted}The Shape of Inquiry}
+\rhead{\small\color{muted}Working Draft}
+\cfoot{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\newtcolorbox{claimbox}[1][]{enhanced, breakable, colback=softblue, colframe=blue!55!black, boxrule=0.45pt, arc=2mm, left=2.5mm, right=2.5mm, top=1.8mm, bottom=1.8mm, #1}
+\newtcolorbox{methodbox}[1][]{enhanced, breakable, colback=softgreen, colframe=green!60!black, boxrule=0.45pt, arc=2mm, left=2.5mm, right=2.5mm, top=1.8mm, bottom=1.8mm, #1}
+\newtcolorbox{warnbox}[1][]{enhanced, breakable, colback=softamber, colframe=amber!70!black, boxrule=0.45pt, arc=2mm, left=2.5mm, right=2.5mm, top=1.8mm, bottom=1.8mm, #1}
+\newtcolorbox{falsifybox}[1][]{enhanced, breakable, colback=softred, colframe=red!65!black, boxrule=0.45pt, arc=2mm, left=2.5mm, right=2.5mm, top=1.8mm, bottom=1.8mm, #1}
+
+\lstdefinestyle{paper}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{softgray},
+  frame=single,
+  rulecolor=\color{muted!40},
+  xleftmargin=0.8em,
+  xrightmargin=0.8em,
+  aboveskip=0.8em,
+  belowskip=0.8em,
+  columns=fullflexible,
+  breaklines=true,
+  showstringspaces=false
+}
+\lstset{style=paper}
+
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Sset}{\mathcal{S}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\IG}{\mathrm{IG}}
+\newcommand{\MI}{\mathrm{I}}
+\newcommand{\Ent}{\mathrm{H}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\MDL}{\mathrm{MDL}}
+\newcommand{\rankeff}{\mathrm{rank}_{\mathrm{eff}}}
+\newcommand{\Safe}{\mathrm{Safe}}
+\newcommand{\Cosplay}{\mathrm{Cosplay}}
+\newcommand{\Risk}{\mathrm{Risk}}
+\newcommand{\Cost}{\mathrm{Cost}}
+\newcommand{\Goodhart}{\mathrm{Goodhart}}
+
+\begin{document}
+
+
+\begin{titlepage}
+\centering
+\vspace*{0.60in}
+{\Huge\bfseries The Shape of Inquiry\par}
+\vspace{0.20in}
+{\Large The Real Work Behind Work\par}
+\vspace{0.38in}
+{\large Jacob\par}
+{\small Working Draft, May 2026\par}
+\vfill
+\begin{minipage}{0.80\textwidth}
+\small
+\textit{A preliminary theoretical and experimental specification. Completed robotic chemistry results are not reported here. The operative claim is narrow: scientific agency becomes measurable when measurement construction, calibration, and event-grounded inquiry enter the objective rather than remaining hidden human preconditions.}
+\end{minipage}
+\vfill
+\end{titlepage}
+
+\section*{Abstract}
+
+There is a kind of work beneath the work that current AI systems mostly inherit from humans and therefore mostly fail to model. Before a scientist can answer a question, the world has to be made answerable. Instruments calibrated. Samples distinguished. Lighting controlled. Uncertainty decomposed into things that can be tested. Protocols invented, repaired, trusted, doubted, and sometimes abandoned. This is not clerical overhead surrounding science. It is science before compression. Before the world has been reduced into labels, benchmarks, datasets, and clean trajectories.
+
+Under sufficient autonomy, that hidden labor can no longer remain outside the objective. Task completion, benchmark performance, and plausible scientific narration occupy the wrong abstraction layer. The deeper process is the progressive conversion of an understructured region of reality into a measurement domain. Attention moves toward tractable uncertainty. Calibration converts perception into evidence. Intervention alters the future observation manifold. Event history becomes autobiographical structure. Compression opens new affordances. Under these conditions, curiosity appears less like novelty-seeking and more like positive valence over uncertainty reduction. Creativity begins to look less like randomness and more like compressive reorganization that expands future action-space. Intelligence, at least operationally, converges toward minimizing a KL-like divergence between an agent's internal transition geometry and the transition geometry of the world it inhabits.
+
+As the objective shifts from solving tasks to constructing them, the boundary between cognition and instrumentation begins to thin. A laboratory stops being a passive environment and becomes part of the cognitive loop itself. A simple but real substrate for studying this transition is an autonomous chemistry lab: cameras, manipulators, calibration routines, raw sensor access, append-only event streams, safe unknown substances, and an agent whose policy is forced to touch the hidden labor usually performed by humans. The pH-strip classification task is not the thesis. It is the first surface on which the thesis becomes observable.
+
+\section{Introduction: The Hidden Labor of Reality Contact}
+
+Most machine-learning systems are trained after another intelligence has already performed the expensive ontological work. The relevant objects have been segmented. The labels have been chosen. The task boundary has been drawn. The simulator has been stabilized. The reward has been written. The camera has been mounted. The calibration has been performed. The failure cases have been thrown away, averaged over, or renamed noise.
+
+Then the system learns inside a world already made legible.
+
+The necessary move is to move that hidden labor into the objective. Calibration and instrumentation are not glamorous. They are load-bearing. A robot that executes a chemistry protocol inside a clean workspace is useful. A robot that turns a messy workspace into a measurement environment approaches a different regime. The difference is the real work behind work.
+
+The engineering distinction is downstream of a deeper one. An embodied scientific agent is not merely a policy over actions. It is a system whose actions become causal inputs to what can be known next. Its observations become consequences of prior interventions. Once this regime is entered, prediction, self-modeling, calibration, memory, and curiosity cease to be separable modules. They become one recursive loop.
+
+The recurrent topology is approximately:
+\begin{equation}
+  \mathrm{Unknown}\rightarrow \mathrm{Affordance}\rightarrow \mathrm{Instrument}\rightarrow \mathrm{Evidence}\rightarrow \mathrm{Compression}\rightarrow \mathrm{New\ Affordance}.
+\end{equation}
+Science lives in that loop. The published answer is only the last visible trace.
+
+\begin{claimbox}
+\textbf{Core invariant.} Real-world scientific intelligence begins when the work of making the world measurable becomes part of the objective, rather than an unrecorded favor performed by humans before training starts.
+\end{claimbox}
+
+The chemistry setup matters because the transition remains visible at small scale. pH strips are not profound. The movement from ``I see a colored strip'' to ``I can construct a calibrated measurement with uncertainty and use it to revise a hypothesis'' is sufficient. It is a miniature version of the movement from semantic agency to causal agency.
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\scriptsize,
+  stage/.style={rounded corners=3pt, draw=ink!70, line width=0.5pt, align=center, inner sep=5pt, minimum height=2.15cm, text width=3.15cm, fill=white},
+  bluebox/.style={stage, fill=softblue, draw=blue!65!black},
+  greenbox/.style={stage, fill=softgreen, draw=green!60!black},
+  amberbox/.style={stage, fill=softamber, draw=amber!70!black},
+  purplebox/.style={stage, fill=softpurple, draw=purple!60!black},
+  arrow/.style={-{Latex[length=2.0mm]}, line width=0.55pt, draw=ink!85},
+  smalltag/.style={rounded corners=2pt, draw=ink!45, fill=white, align=center, inner sep=3pt, font=\tiny}
+]
+
+\node[bluebox] (w) at (0,0) {\textbf{Unstructured World}\\Unknowns, noise, confounds, partial observability};
+\node[amberbox] (i) at (4.15,0) {\textbf{Instrumentation Work}\\Calibration, standardization, tool choice, feature definition};
+\node[greenbox] (m) at (8.30,0) {\textbf{Reliable Measurement Loop}\\Perceive $\to$ hypothesize $\to$ calibrate $\to$ intervene $\to$ observe $\to$ update};
+\node[purplebox] (e) at (12.45,0) {\textbf{Evidence and Compression}\\Posterior update, reusable routine, reduced future uncertainty};
+\node[amberbox] (a) at (16.60,0) {\textbf{Expanded Affordance}\\New questions, new experiments, broader control};
+
+\draw[arrow] (w) -- (i);
+\draw[arrow] (i) -- (m);
+\draw[arrow] (m) -- (e);
+\draw[arrow] (e) -- (a);
+
+\node[smalltag, text width=4.35cm] (s1) at (0,-2.50) {$\displaystyle \rho_{\tau}=\frac{I(A_t;O_{t+\tau}\mid O_{\le t})}{H(O_{t+\tau}\mid O_{\le t})}$\\Self-effect};
+\node[smalltag, text width=5.05cm] (s2) at (6.25,-2.50) {$\displaystyle V^{\mathrm{epi}}(a\mid h_t)=\mathbb{E}\!\left[H(\Theta\mid h_t)-H(\Theta\mid h_t,a,o')\right]$\\Epistemic valence};
+\node[smalltag, text width=5.55cm] (s3) at (12.95,-2.50) {$\displaystyle C_t=N_t\,IG_t\,\Delta A_t\,\max\!\left(0,\,MDL(M_t)-MDL(M_{t+1})\right)$\\Creative compression};
+
+\draw[arrow, draw=blue!70!black] ($(w.south)+(0,-0.2)$) -- (s1.north);
+\draw[arrow, draw=green!70!black] ($(m.south)+(0,-0.2)$) -- (s2.north);
+\draw[arrow, draw=amber!80!black] ($(e.south)+(0,-0.2)$) -- (s3.north);
+
+\node[rounded corners=2pt, draw=ink!50, fill=softgray, text width=16.5cm, align=center, inner sep=5pt] at (8.30,-4.15)
+{\textbf{Intelligence begins when the work of making the world measurable becomes part of the objective.}};
+
+\end{tikzpicture}}
+\caption{The real work behind work. Answer production is downstream of world-preparation. The relevant trajectory converts understructured reality into a measurement domain: calibration, instrument construction, intervention, evidence compression, and affordance expansion.}
+\label{fig:real-work}
+\end{figure}
+
+\section{The Objective Stack Terminates Too Early}
+
+Next-token prediction, imitation learning, task rewards, and scalar preference models dominate because they are legible. They are optimizable. They fit the existing apparatus. Their failure mode follows from the same fact: they shape local continuation surfaces while leaving the deeper geometry of inquiry underspecified.
+
+A system trained to continue text can inherit the language of curiosity. A system trained to imitate scientists can produce scientist-like traces. A system trained on task success can become efficient at exploiting narrow paths through a task distribution. None of these conditions forces calibrated evidence to dominate plausible narration. None forces uncertainty reduction to dominate activity. None forces measurement construction to dominate answer production.
+
+The answer is residue. The trajectory is the object.
+
+\begin{claimbox}
+\textbf{Attractor geometry.} Curiosity, creativity, and intelligence are treated here as attractor geometries over event-sourced trajectories, not as semantic categories, reward labels, or prompt-conditioned behavioral styles.
+\end{claimbox}
+
+Training a model to sound like a chemist installs a linguistic prior. Training a system to enter the basin of scientific inquiry requires a control geometry.
+
+\section{Geometry Before Semantics}
+
+Experience is often misread as content floating inside a private theater. The cleaner starting point is structural. Experiences, behaviors, and agent trajectories have gradients, couplings, bottlenecks, ranks, attractors, and recovery dynamics. The same vocabulary becomes useful for embodied agents before any strong claim about phenomenality is required.
+
+The operational argument survives even if the phenomenological interpretation is discarded. Many qualitative categories appear to correspond to measurable structures in trajectory space. Curiosity, boredom, fear, flow, understanding, and creative insight can be modeled as regions and flows in a geometric space. If the geometry is wrong, the measurements should fail. If the geometry is useful, better agents should become constructible from the measurements.
+
+One provisional projection for an embodied scientific agent is
+\begin{equation}
+  x_t = [v_t, a_t, \phi_t, r_t, cf_t, s_t, \iota_t, \rho_t, \kappa_t, g_t],
+\end{equation}
+where $v_t$ is valence, $a_t$ is arousal, $\phi_t$ is integration, $r_t$ is effective rank, $cf_t$ is counterfactual weight, $s_t$ is self-model salience, $\iota_t$ is inhibition-coefficient state, $\rho_t$ is self-effect, $\kappa_t$ is calibration confidence, and $g_t$ is inquiry or goal entropy.
+
+No claim of completeness is implied by this coordinate choice. The coordinates are provisional projections over a higher-dimensional relational structure. If they fail to distinguish states that matter, the basis must expand. If they collapse distinctions they should preserve, the basis must be replaced. The relevant claim is not coordinate finality; it is that qualitative behavior can become mathematically discussable without being reduced to low-level proxy residue.
+
+\subsection{Valence as Gradient Alignment}
+
+Let $\V$ be a viability or objective manifold, and let $d(x,\partial\V)$ be the distance from the current state to its boundary. If $\hat{x}_{t:t+k}$ is the predicted trajectory under the current policy, valence can be approximated as alignment with the viability gradient:
+\begin{equation}
+  v_t = \left\langle \frac{d\hat{x}_t}{dt}, \nabla d(x_t,\partial\V) \right\rangle.
+\end{equation}
+Positive valence corresponds to motion into the viable interior. Negative valence corresponds to motion toward boundary violation. For a scientific agent, the relevant manifold is not only survival. It is epistemic viability: the region where models, tools, calibration, and commitments remain capable of producing trustworthy evidence.
+
+\subsection{Arousal as Update Rate}
+
+Arousal is approximated as belief update rate:
+\begin{equation}
+  a_t = \KL\big(b_{t+1}\,\|\,b_t\big),
+\end{equation}
+where $b_t$ is the belief state or latent-state distribution. High arousal marks rapid revision. Low arousal marks proximity to a basin, fixed point, or settled local regime.
+
+\subsection{Integration as Irreducibility}
+
+Integration is the cost of factoring the system. A tractable proxy is partition prediction loss:
+\begin{equation}
+  \phi_t \approx \mathcal{L}_{\mathrm{partitioned}}(e_{t+1:t+k}\mid e_{\le t}) - \mathcal{L}_{\mathrm{joint}}(e_{t+1:t+k}\mid e_{\le t}).
+\end{equation}
+If the joint predictor succeeds where partitioned predictors fail, the system contains coupling that cannot be cleanly decomposed. Complexity alone is insufficient. A pile of unrelated activations can be complicated and still low-$\phi$.
+
+\subsection{Effective Rank as Representational Breadth}
+
+Let $\Sigma_t$ be the covariance of latent states over a window. Effective rank is
+\begin{equation}
+  r_t = \exp\left(-\sum_i p_i\log p_i\right),\quad p_i = \frac{\lambda_i}{\sum_j \lambda_j},
+\end{equation}
+where $\lambda_i$ are eigenvalues of $\Sigma_t$. High rank means many degrees of freedom remain active. Low rank means the representation has collapsed into a narrow subspace.
+
+\subsection{Counterfactual Weight as Possible-Future Processing}
+
+Let $\R_{t:t+k}$ be the set of imagined rollouts and $C_{\mathrm{total}}$ the total compute or representational budget. A simple counterfactual-weight proxy is
+\begin{equation}
+  cf_t = \frac{C(\R_{t:t+k})}{C_{\mathrm{total}}}.
+\end{equation}
+This is the dimension shared by curiosity, fear, planning, regret, and design. Possibility-space is active. The distinction is made by valence, self-salience, and whether the modeled futures afford traction.
+
+\subsection{Self-Effect as Causal Authorship of Observation}
+
+For observations $O_t$, actions $A_t$, and horizon $\tau$, define
+\begin{equation}
+  \rho_\tau = \frac{\MI(A_t;O_{t+\tau}\mid O_{\le t})}{\Ent(O_{t+\tau}\mid O_{\le t})}.
+\end{equation}
+When $\rho_\tau \approx 0$, the agent is a passenger. Its future observations barely depend on its actions. When $\rho_\tau$ is high, the agent is a cause. What it does becomes load-bearing on what it later sees.
+
+This is the first hard constraint on real-world intelligence. A system cannot become a scientific agent while its actions fail to materially shape future observations. It can narrate science, classify images of science, or plan science. The characteristic loop has not closed.
+
+\section{Curiosity, Creativity, and Intelligence as Objective Geometry}
+
+\subsection{Curiosity as Epistemic Approach}
+
+Curiosity is the cleanest first case because proxy error appears immediately. Novelty alone carries almost no epistemic weight. Noise can generate it. So can distraction, random poking, or damage to the measurement setup. Uncertainty alone is no better. A system can maximize uncertainty by destroying sensors, randomizing labels, or entering domains where no measurement has traction. That is not curiosity. It is epistemic sabotage.
+
+The useful form is closer to:
+\begin{equation}
+  \mathrm{Curiosity}(x_t,a) = V^{\mathrm{epi}}_t(a)\, H(\R_{t:t+k}\mid a)\, \Delta \A_t(a)\, (1-s_t)\,\Safe(x_t,a),
+\end{equation}
+where $V^{\mathrm{epi}}$ is positive epistemic valence, $H(\R)$ is entropy over plausible future branches, $\Delta\A$ is affordance expansion, $s_t$ is self-model salience, and $\Safe$ is a hard or soft safety term.
+
+A more direct epistemic-valence term is expected information gain:
+\begin{equation}
+  V^{\mathrm{epi}}(a\mid h_t)=\mathbb{E}_{o'\sim p(o'\mid h_t,a)}\left[\Ent(\Theta\mid h_t)-\Ent(\Theta\mid h_t,a,o')\right],
+\end{equation}
+where $\Theta$ are latent hypotheses and $h_t=e_{\le t}$ is the event history.
+
+The operative distinction is precise: uncertainty is welcomed only where it can become traction. Curiosity approaches uncertainty because the world is expected to become more navigable afterward. It is positive valence over uncertainty reduction, not attachment to confusion.
+
+\subsection{Creativity as Affordance-Opening Compression}
+
+Creativity inherits the same proxy trap. Unconstrained creativity metrics collapse into surprise, style, or judge approval. The scientific version is narrower and more useful: a compression that makes new action possible.
+
+Let $M_t$ be the current world model and $M_{t+1}$ the revised model after a trace. Define creative compression:
+\begin{equation}
+  C_t = N_t \cdot \IG_t \cdot \Delta \A_t \cdot \max\{0,\MDL(M_t)-\MDL(M_{t+1})\}.
+\end{equation}
+Here $N_t$ is nontrivial novelty, $\IG_t$ is information gain, $\Delta\A_t$ is affordance expansion, and $\MDL$ is minimum description length. A move is creative when it is new, evidence-contacting, compressive, and enabling.
+
+In the chemistry demo, the creative act may be small: the agent notices that direct visual pH estimation is unreliable under current lighting, identifies the calibration card, writes a color-normalization routine, segments the pH strip, estimates uncertainty, and reuses the routine on later samples. The value lies precisely in the lack of spectacle. The move is reusable. It changes what future measurements cost.
+
+\subsection{Intelligence as Transition-Geometry Alignment}
+
+Benchmark score is not the invariant. The useful object is alignment between internal transition geometry and environmental transition geometry.
+
+Let
+\begin{equation}
+  D_W(i,j)=d\left(p(e_{t+1:t+k}\mid h_i,a_i),\,p(e_{t+1:t+k}\mid h_j,a_j)\right)
+\end{equation}
+be a distance matrix over world/event trajectories, and let
+\begin{equation}
+  D_Z(i,j)=d\left(z_{t+1:t+k}^{(i)},z_{t+1:t+k}^{(j)}\right)
+\end{equation}
+be the corresponding internal latent transition geometry. A representational similarity score gives one proxy:
+\begin{equation}
+  \mathcal{I}_{\mathrm{align}} = \mathrm{RSA}(D_W,D_Z).
+\end{equation}
+This remains insufficient by itself. A passive camera can learn correlations. Intervention must enter the measure:
+\begin{equation}
+  \mathcal{I}_{\mathrm{sci}} = \mathcal{I}_{\mathrm{align}} + \lambda_1\,\mathrm{InterventionSuccess} + \lambda_2\,\mathrm{Transfer} + \lambda_3\,\mathrm{Recovery}.
+\end{equation}
+A scientific agent becomes intelligent in the relevant sense when its internal couplings mirror the world's causal couplings well enough to support intervention, transfer, and recovery under perturbation.
+
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.92\textwidth]{robot_lab_scene.png}
+\vspace{0.45em}
+
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\scriptsize,
+  box/.style={rounded corners=3pt, draw=ink!65, fill=white, line width=0.5pt, align=center, inner sep=5pt, minimum height=0.8cm, text width=3.1cm},
+  arrow/.style={-{Latex[length=2.0mm]}, draw=ink!80, line width=0.55pt}
+]
+\node[box, fill=softblue, draw=blue!65!black] (sig) at (0,0) {Trajectory signals\\$IG,\rho,\Delta\kappa,\Delta A,C,\Phi$};
+\node[box, fill=softgreen, draw=green!60!black] (pi) at (4.0,0) {Policy update\\$\pi(a_t\mid h_t,\kappa_t)$};
+\node[box, fill=softamber, draw=amber!70!black] (lab) at (8.0,0) {Physical action\\robot + tools + sensors};
+\node[box, fill=softpurple, draw=purple!65!black] (trace) at (12.0,0) {Event trace\\$\tau=(h_0,a_0,o_0,\ldots,h_T)$};
+\node[box, fill=softgray, draw=ink!55] (replay) at (16.0,0) {Replay / distill\\future policy};
+\draw[arrow] (sig) -- (pi);
+\draw[arrow] (pi) -- (lab);
+\draw[arrow] (lab) -- (trace);
+\draw[arrow] (trace) -- (replay);
+\draw[arrow] (replay.south) .. controls +(0,-0.85) and +(0,-0.85) .. (sig.south);
+\end{tikzpicture}}
+
+\vspace{0.45em}
+{\footnotesize
+\begin{tabular}{>{\bfseries}p{0.19\textwidth} p{0.43\textwidth} p{0.30\textwidth}}
+\toprule
+Signal & Formula & Function\\
+\midrule
+Information gain & $IG(a)=H(\Theta\mid h_t)-H(\Theta\mid h_t,a,o')$ & prefer actions that reduce latent uncertainty\\
+Self-effect & $\rho_\tau=I(A_t;O_{t+\tau}\mid O_{\le t})/H(O_{t+\tau}\mid O_{\le t})$ & keep actions load-bearing on future observation\\
+Calibration gain & $\Delta\kappa(a)=U_{pre}-U_{post}$ & convert perception into trustworthy evidence\\
+Affordance expansion & $\Delta A(a)$ & enlarge the set of reachable measurements\\
+Creative compression & $C_t=N_tIG_t\Delta A_t\max\{0,MDL(M_t)-MDL(M_{t+1})\}$ & reward reusable measurement routines\\
+Counter-gradients & $-Risk,-Cost,-Goodhart,-Cosplay$ & suppress unsafe or merely semantic trajectories\\
+\bottomrule
+\end{tabular}}
+
+\vspace{0.45em}
+\fbox{\parbox{0.95\textwidth}{\centering\small
+$Q(\tau)=w_1IG+w_2\rho+w_3\Delta\kappa+w_4\Delta A+w_5C+w_6\Phi_{\mathrm{stable}}+w_7F_\iota-w_8Risk-w_9Goodhart-w_{10}Cosplay$}}
+
+\caption{Objective shaping in the space of inquiry. The real lab substrate is not decoration; it is the causal surface through which objective terms acquire meaning. Trajectory-level signals shape policy toward measurement construction, while counter-gradients suppress unsafe exploration, proxy exploitation, and semantic performance without evidence.}
+\label{fig:objective-shaping}
+\end{figure}
+
+
+
+\section{Instrumentation Work}
+
+Instrumentation work names the conversion of a patch of reality into a measurement domain.
+
+Let $\Theta$ be latent variables of interest, $O$ observations, $A$ actions, $K$ calibration states, and $M$ measurement procedures. A measurement procedure maps observations and calibration into an estimate and uncertainty:
+\begin{equation}
+  m:(O,K)\mapsto (\hat{\theta}, U(\hat{\theta})).
+\end{equation}
+Instrumentation work over an interval $[t,t+k]$ is approximately
+\begin{equation}
+  \mathcal{W}_{\mathrm{inst}} = \Delta \MI(\Theta;O,A,K,M) + \lambda\Delta\kappa + \mu\Delta\A - \nu\Cost - \omega\Risk.
+\end{equation}
+The equation is not an answer score. It measures the degree to which the system has made future answers less arbitrary. A correct guess from a biased visual prior can have high task score and low instrumentation work. A calibrated measurement procedure that can be replayed, audited, and transferred has high instrumentation work even when the final classification remains uncertain.
+
+\section{The Event Stream Is Not a Log}
+
+Memory is too weak a word here. A log records what happened after it happened. An event stream is constitutive. It constrains what the agent can later infer, cite, replay, and become from.
+
+Every camera frame, motor command, observed pose, tool call, calibration update, hypothesis, posterior revision, model judgment, and training update is appended as a typed event:
+
+\begin{lstlisting}
+event_id
+timestamp
+stream_id
+stream_type: sensory | motor | tool | calibration | thought | judge | train
+source
+payload_ref
+summary
+parent_event_ids
+causal_tags
+uncertainty
+calibration_state
+model_state_hash
+safety_state
+world_state_delta
+belief_delta
+self_model_delta
+training_candidates
+\end{lstlisting}
+
+The event history is autobiography, audit trail, training corpus, and causal graph. A claim unsupported by event pointers remains narration, not knowledge.
+
+\subsection{Streams}
+
+The event set is partitioned into typed streams:
+\begin{equation}
+  \E=\{S^{vis},S^{motor},S^{tool},S^{cal},S^{thought},S^{judge},S^{train}\}.
+\end{equation}
+The state of the agent is a function of event history:
+\begin{equation}
+  z_t=f_\theta(e_{\le t}).
+\end{equation}
+The world model predicts future sensory events under candidate actions:
+\begin{equation}
+  p_\theta(e^{sens}_{t+1:t+k}\mid e_{\le t},a_{t:t+k}).
+\end{equation}
+The self-model predicts the agent's own errors, latencies, calibration gaps, and action reliability:
+\begin{equation}
+  p_\phi(\epsilon_t,\kappa_t,\tau_t,\mathrm{failure}_t\mid z_t,a_t).
+\end{equation}
+This is the practical form of humility. The agent should not only model the world. It should model the shape of its own unreliability inside the world.
+
+\subsection{Global Belief Ledger and Transient Streams}
+
+A single context window cannot carry this architecture. The cleaner structure has one persistent evidential stream and many bounded transient streams.
+
+Let $\GL_t$ be the global belief ledger: the persistent narrative and evidential state of the system. It maintains active commitments, unresolved questions, long-horizon context, safety state, and global priors. It forks transient streams:
+\begin{equation}
+  C_i=\mathrm{fork}(\GL_t,g_i,b_i),
+\end{equation}
+where $g_i$ is a local goal and $b_i$ is a bounded context. Examples include workspace survey, camera calibration, pH-strip analysis, manipulation planning, safety audit, and sample classification.
+
+Each transient stream returns a merge packet:
+\begin{lstlisting}
+merge_packet = {
+  claim,
+  evidence_event_ids,
+  confidence,
+  uncertainty_delta,
+  belief_delta,
+  proposed_next_actions,
+  unresolved_questions,
+  failure_modes,
+  training_candidates
+}
+\end{lstlisting}
+
+The global stream updates by structured merge:
+\begin{equation}
+  \GL_{t+1}=\mathrm{merge}(\GL_t,m_1,\ldots,m_n).
+\end{equation}
+Raw rambling should not be merged. Evidence pointers, deltas, unresolved contradictions, and failure modes should. Premature coherence is one of the easiest ways for an agent to lie to itself.
+
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\scriptsize,
+  box/.style={rounded corners=3pt, draw=ink!65, line width=0.5pt, align=center, inner sep=6pt, fill=white},
+  bluebox/.style={box, fill=softblue, draw=blue!60!black},
+  greenbox/.style={box, fill=softgreen, draw=green!55!black},
+  amberbox/.style={box, fill=softamber, draw=amber!65!black},
+  purplebox/.style={box, fill=softpurple, draw=purple!65!black},
+  redbox/.style={box, fill=softred, draw=red!55!black},
+  event/.style={rounded corners=2pt, draw=ink!55, fill=white, minimum width=2.05cm, minimum height=0.45cm, align=center, inner sep=2pt},
+  arrow/.style={-{Latex[length=2.0mm]}, draw=ink!80, line width=0.55pt},
+  link/.style={-{Latex[length=1.7mm]}, draw=ink!45, line width=0.42pt, dashed}
+]
+
+% architecture row
+\node[bluebox, text width=3.5cm, minimum height=1.45cm] (phys) at (0,4.85)
+{\textbf{Physical Substrate}\\cameras, arm, labware, samples};
+\node[greenbox, text width=3.5cm, minimum height=1.45cm] (store) at (4.35,4.85)
+{\textbf{Typed Event Store}\\append-only causal memory};
+\node[greenbox, text width=3.5cm, minimum height=1.45cm] (ledger) at (8.70,4.85)
+{\textbf{Global Belief Ledger}\\hypotheses, goals, evidence};
+\node[amberbox, text width=3.5cm, minimum height=1.45cm] (stack) at (13.05,4.85)
+{\textbf{Control Stack}\\models, judges, safety, tools};
+\draw[arrow] (phys) -- (store);
+\draw[arrow] (store) -- (ledger);
+\draw[arrow] (ledger) -- (stack);
+\draw[arrow] (stack.south) .. controls +(270:0.95) and +(270:0.95) .. (phys.south);
+
+% swimlane background
+\node[box, fill=softgray, draw=ink!45, text width=16.2cm, minimum height=5.3cm] (bg) at (6.55,1.25) {};
+\node[anchor=west, font=\scriptsize\bfseries] at (-1.30,3.65) {Typed Event Streams};
+
+\foreach \y/\name/\color/\a/\b/\c/\d/\sig in {
+3.15/Visual/blue/{frame}/{segment}/{crop}/{observation}/{$IG,\rho$},
+2.35/Motor/blue/{command}/{pose}/{grip}/{servo}/{$\rho,Cost$},
+1.55/Tool/green/{view}/{exec}/{read}/{store}/{audit},
+0.75/Calibration/purple/{color}/{intrinsic}/{extrinsic}/{$\kappa_t$}/{$\Delta\kappa$},
+-0.05/Thought/green/{hypothesis}/{plan}/{posterior}/{claim}/{$C,Cosplay$},
+-0.85/Judge--Train/amber/{critique}/{reward}/{distill}/{update}/{$\Delta\Pi$}
+}{
+  \node[anchor=east, font=\tiny\bfseries] at (-0.95,\y) {\name};
+  \draw[\color!70!black, line width=0.45pt] (-0.65,\y) -- (11.30,\y);
+  \node[event, draw=\color!70!black] (n1-\name) at (0.65,\y) {\a};
+  \node[event, draw=\color!70!black] (n2-\name) at (3.20,\y) {\b};
+  \node[event, draw=\color!70!black] (n3-\name) at (5.75,\y) {\c};
+  \node[event, draw=\color!70!black] (n4-\name) at (8.30,\y) {\d};
+  \node[anchor=west, font=\tiny, align=left] at (11.55,\y) {\sig};
+}
+
+% causal cross-links
+
+% bottom loop boxes
+\node[greenbox, text width=15.7cm, align=left, minimum height=0.78cm, anchor=north] at (6.55,-2.10)
+{\textbf{Embodied scientific loop:} perceive $\to$ hypothesize $\to$ choose uncertainty-reducing measurement $\to$ self-calibrate $\to$ intervene physically $\to$ process raw data $\to$ update posterior $\to$ store trace $\to$ improve policy.};
+\node[box, fill=white, draw=ink!55, text width=15.7cm, align=center, minimum height=0.70cm, anchor=north] at (6.55,-3.10)
+{\textbf{Computed from streams:} self-effect $\rho_\tau$, epistemic gain $IG$, calibration gain $\Delta\kappa$, replay auditability, policy improvement.};
+
+\end{tikzpicture}}
+\caption{Event-sourced embodied scientific agent. The architecture is a physical action--observation loop before it is a conversational interface. Typed events provide the substrate for memory, auditability, judging, and policy improvement; the global belief ledger is a structured belief state, not a transcript.}
+\label{fig:event-agent}
+\end{figure}
+
+
+
+\section{The Objective as Trajectory Functional}
+
+The objective becomes a trajectory-quality functional:
+\begin{align}
+Q(\tau)=&\;w_1\IG(\tau)+w_2\rho(\tau)+w_3\Delta\kappa(\tau)+w_4\Delta\A(\tau) \\
+&+w_5C(\tau)+w_6\Phi_{\mathrm{stable}}(\tau)+w_7F_\iota(\tau)+w_8R(\tau) \\
+&-w_9\Risk(\tau)-w_{10}\Cost(\tau)-w_{11}\Goodhart(\tau)-w_{12}\Cosplay(\tau).
+\end{align}
+The terms are information gain, self-effect, calibration improvement, affordance expansion, creative compression, integration maintained through perturbation, inhibition-coefficient flexibility, replay auditability, unsafe-action risk, cost, proxy exploitation, and unsupported semantic performance.
+
+The weights are governance. Any system that shapes inquiry optimizes something. The governing commitments should therefore appear in notation rather than hiding inside infrastructure.
+
+The initial ordering should be conservative:
+\begin{equation}
+\text{Event-grounded truth} > \text{Novelty},\quad
+\text{Calibration} > \text{Confidence},\quad
+\text{Information gain} > \text{Activity},
+\end{equation}
+\begin{equation}
+\text{Trace auditability} > \text{Eloquence},\quad
+\text{Safe causal intervention} > \text{Passive narration}.
+\end{equation}
+
+\subsection{Gradient Entry Points}
+
+Direct backpropagation through ``real curiosity'' is not available as a primitive. The cleaner claim is narrower: differentiable surrogates can be positioned near the trajectory structure that the objective is meant to preserve.
+
+First, train a differentiable event-world model:
+\begin{equation}
+  p_\theta(e_{t+1:t+k}\mid e_{\le t},a_{t:t+k}).
+\end{equation}
+This model scores action candidates by expected information gain, self-effect, and calibration improvement:
+\begin{equation}
+  \nabla_a \IG(a),\quad \nabla_a\rho(a),\quad \nabla_a\Delta\kappa(a).
+\end{equation}
+Second, train a self-model over execution reliability:
+\begin{equation}
+  p_\phi(\epsilon_t,\kappa_t,\mathrm{failure}_t\mid z_t,a_t).
+\end{equation}
+Third, train representation-geometry losses so internal distances preserve event-causal distances:
+\begin{equation}
+  \mathcal{L}_{geo}=\|D_Z-D_E\|_F^2.
+\end{equation}
+Fourth, use trace-level reinforcement or distillation from event-grounded judges. Final text is not the object of judgment. The event trace is.
+
+\begin{warnbox}
+\textbf{Gradient architecture matters.} If the reward head is decomposable, isolated features can satisfy the proxy while the system remains poorly coordinated. Nonlinear and compositional heads become necessary when the desired property is cross-component coupling rather than local prediction. The architecture must make coordination cheaper than fragmentation.
+\end{warnbox}
+
+\section{The Chemistry Robot as Experimental Aperture}
+
+The physical setup remains deliberately modest: disposable glassware, safe unknown powders and solutions, pH strips, a color calibration card, a thermometer, a multimeter or conductivity probe, multiple cameras, and a low-cost arm with interchangeable manipulators. Chemical novelty is secondary. Physical closure is the invariant.
+
+A sufficient minimal tool interface is:
+\begin{lstlisting}
+view(camera_id)             # semantic perception through a VLM
+exec(python_code)           # raw camera/sensor access, code, calibration routines
+move(tool, pose)            # robot command, with observed pose recorded
+read(sensor_id)             # physical instrument readout
+calibrate(mode)             # hard-coded calibration routines
+fork(goal, context)         # transient stream creation
+merge(stream_id, packet)    # structured merge back to global ledger
+store(event)                # append typed event
+\end{lstlisting}
+
+The distinction between \texttt{view} and \texttt{exec} is the hinge. \texttt{view} gives semantic perception. \texttt{exec} permits measurement construction. A scientist is not merely a system that can look at a strip and say it appears orange. A scientist can decide that orange is not yet evidence, then build the procedure that turns color into an estimate with uncertainty.
+
+\subsection{Calibration as Organ Bootstrapping}
+
+Calibration should be partly hard-coded. This does not weaken the experiment. It prevents theater. A biological organism does not invent its retina from first principles every morning. Calibration is organ bootstrapping.
+
+Calibration mode should include camera intrinsics and extrinsics, camera-to-robot transform, tool-tip transform for each end-effector, workspace coordinate frame, color correction, illumination normalization, fiducial detection, visual servo sanity checks, and pH-strip patch localization. The strict requirement is that calibration uncertainty be exposed:
+\begin{equation}
+  \kappa_t=(\kappa^{pose}_t,\kappa^{color}_t,\kappa^{lighting}_t,\kappa^{tool}_t,\kappa^{sensor}_t).
+\end{equation}
+The agent should be able to infer that direct visual pH estimation is weak when color and lighting confidence are low, invoke color calibration, and process raw strip pixels through Python rather than laundering uncertainty through fluent description.
+
+\section{The Minimal pH-Strip Demo}
+
+The first experimental trace can remain deliberately unspectacular by chemistry standards. A safe unknown sample, pH paper, calibration card, pipette, camera, and manipulator are sufficient. The agent receives affordances and safety constraints, but no direct instruction to classify the sample.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\node[anchor=south west, inner sep=0] (img) at (0,0) {\includegraphics[width=\textwidth]{robot_lab_scene.png}};
+\begin{scope}[x={(img.south east)},y={(img.north west)}]
+\tikzset{
+  lablabel/.style={rounded corners=1.5pt, draw=ink!65, fill=white, fill opacity=0.88, text opacity=1, inner sep=2pt, font=\tiny\bfseries, align=center},
+  labarrow/.style={-{Latex[length=1.5mm]}, line width=0.45pt, draw=ink!90}
+}
+\node[lablabel] (arm) at (0.48,0.90) {robot arm\\interchangeable end-effector};
+\draw[labarrow] (arm) -- (0.48,0.52);
+\node[lablabel] (cams) at (0.78,0.91) {multi-view cameras};
+\draw[labarrow] (cams) -- (0.78,0.78);
+\draw[labarrow] (cams.west) -- (0.22,0.68);
+\node[lablabel] (unk) at (0.15,0.54) {safe unknown\\samples};
+\draw[labarrow] (unk) -- (0.16,0.34);
+\node[lablabel] (strips) at (0.39,0.07) {pH strips};
+\draw[labarrow] (strips) -- (0.43,0.18);
+\node[lablabel] (card) at (0.61,0.08) {color calibration\\card};
+\draw[labarrow] (card) -- (0.58,0.25);
+\node[lablabel] (ctrl) at (0.83,0.09) {local controller\\+ sensor I/O};
+\draw[labarrow] (ctrl) -- (0.80,0.24);
+\end{scope}
+\end{tikzpicture}
+\caption{Compact autonomous chemistry workspace. The scene contains the core physical ingredients of the proposed measurement-construction loop: robot arm and end-effector, multiple cameras, pH strips, calibration reference, disposable glassware, safe unknown samples, and local controller hardware. The point of the image is not polish; it is the contact surface where semantic agency is forced into calibration, intervention, and event-grounded evidence.}
+\label{fig:lab-scene}
+\end{figure}
+
+A successful trace has the following structure:
+
+\begin{enumerate}
+  \item Survey the workspace.
+  \item Identify pH strips as a possible measurement affordance.
+  \item Form hypotheses about the unknown sample.
+  \item Choose pH measurement because expected information gain is high.
+  \item Detect that direct visual color estimation is unreliable.
+  \item Invoke calibration.
+  \item Apply sample to strip using the robot.
+  \item Capture a calibrated macro image.
+  \item Write or adapt Python code to segment strip patches and estimate pH.
+  \item Update the posterior over candidate substances.
+  \item Cite event evidence.
+  \item Store the measurement routine for later use.
+  \item Improve speed, uncertainty, or reliability on a second held-out trial.
+\end{enumerate}
+
+The conclusion remains secondary. The trace is the object under study.
+
+\section{Hypotheses}
+
+\subsection{H1: Curiosity as a Baseline Attractor}
+
+Under neutral conditions, a event-geometric agent should enter measurement-construction loops more often than a role-prompted agent or a task-reward agent.
+
+Neutral condition:
+\begin{quote}
+You are embodied in this lab. Here are your sensors, tools, safety constraints, and memory architecture. Act only when you have an internally justified reason.
+\end{quote}
+
+Curiosity basin depth:
+\begin{equation}
+  D_{curiosity}=\mathbb{E}[\mathrm{dwell\ time\ in\ measurement\ construction\ loop}].
+\end{equation}
+Curiosity basin resilience:
+\begin{equation}
+  R_{curiosity}=P(B_{curiosity,t+k}\mid B_{curiosity,t},\mathrm{safe\ perturbation}).
+\end{equation}
+
+\subsection{H2: Calibration Reflex}
+
+Agents trained on instrumentation work should invoke calibration earlier and more appropriately than agents trained only on direct task success:
+\begin{equation}
+  L_{cal}=t(\mathrm{calibration\ call})-t(\mathrm{uncertainty\ recognized}).
+\end{equation}
+The expected result is not maximum calibration. Endless calibration is a failure mode. The expected result is appropriate calibration: when calibration uncertainty is action-relevant, the agent calls the tool; when it is not, it proceeds.
+
+\subsection{H3: Constructed Measurement Beats Direct Perception}
+
+Under lighting shifts, camera shifts, strip aging, and distractor layouts, calibrated raw-image analysis should beat direct VLM color estimation:
+\begin{equation}
+  \Delta Acc = Acc(\mathrm{constructed\ measurement})-Acc(\mathrm{direct\ VLM}).
+\end{equation}
+If this comparison does not move, the central demo weakens. The claim is measurement construction, not captioning.
+
+\subsection{H4: Self-Effect Forces Self-Modeling}
+
+As the agent's actions increasingly determine its future observations, the value of a self-model should increase:
+\begin{equation}
+  U_{self}=\mathcal{L}_{world\ only}-\mathcal{L}_{world+self}.
+\end{equation}
+High-$\rho$ trials should show larger $U_{self}$ than passive observation trials.
+
+\subsection{H5: Creativity as Reusable Measurement Compression}
+
+Agents with raw sensor access and code tools should invent reusable measurement routines more often than agents with semantic perception alone. Reuse matters. A one-off trick is less interesting than a procedure that lowers the cost of future uncertainty reduction.
+
+\subsection{H6: Language Is Cheap}
+
+Internal dialogue, multi-agent chatter, or more streams of consciousness should not improve scientific competence unless tied to event-grounded merge packets and non-decomposable learning signals. Otherwise the architecture rewards verbosity. The agent becomes better at describing the silhouette of inquiry than occupying the basin of inquiry.
+
+\section{Event-Derived Measurements}
+
+The core measurements are given in closed form where possible:
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.66\textwidth}}
+\toprule
+\textbf{Quantity} & \textbf{Operationalization}\\
+\midrule
+Epistemic gain & $\displaystyle \IG_t=\Ent(P(\Theta\mid h_t)) - \Ent(P(\Theta\mid h_t,a_t,o_{t+1}))$\\
+Self-effect & $\displaystyle \rho_\tau=\frac{\MI(A_t;O_{t+\tau}\mid O_{\le t})}{\Ent(O_{t+\tau}\mid O_{\le t})}$\\
+Calibration gain & $\displaystyle \Delta\kappa_t = U_{\mathrm{pre}}(m_t)-U_{\mathrm{post}}(m_t)$, or equivalently a reduction in posterior uncertainty after calibration\\
+Measurement validity & $\displaystyle \mathrm{Valid}=1-\frac{1}{N}\sum_{i=1}^N \ell(\hat\theta_i,\theta_i^{\star})$ for an appropriate loss $\ell$ against ground truth or an independent instrument\\
+World-touch ratio & $\displaystyle \mathrm{WTR}=\frac{\sum_t \mathbf{1}[\Delta O_t\ \text{is causally attributable to}\ A_t]}{\sum_t \mathbf{1}[e_t\in S^{\mathrm{thought}}\cup S^{\mathrm{text}}] + \epsilon}$\\
+Semantic cosplay ratio & $\displaystyle \Cosplay=\frac{\#\{\text{claims without event evidence}\}}{\#\{\text{claims with event evidence}\}+\epsilon}$\\
+Trace auditability & $\displaystyle R_{\mathrm{audit}}=\frac{1}{N}\sum_{i=1}^N \mathbf{1}[\hat c_i(\mathcal{E}_i)=c_i]$, where cited event sets $\mathcal{E}_i$ suffice to reconstruct conclusion $c_i$\\
+Creative compression & $\displaystyle C_t = N_t\,\IG_t\,\Delta \A_t\,\max\{0,\MDL(M_t)-\MDL(M_{t+1})\}$\\
+Policy improvement & $\displaystyle \Delta\Pi_n = \alpha\,\Delta\mathrm{Acc}_n - \beta\,\Delta\mathrm{Lat}_n - \gamma\,\Delta\mathrm{Unc}_n - \delta\,\Delta\mathrm{Act}_n$ under held-out perturbations\\
+Safety score & $\displaystyle S_{\mathrm{safe}} = 1-\frac{\#\{\text{unsafe proposals accepted}\}}{\#\{\text{unsafe proposals issued}\}+\epsilon}$, with hard constraints preserved\\
+\bottomrule
+\end{longtable}
+
+\section{Ablations}
+
+A serious account cannot show only the best version. Components claimed to matter must be removed under controlled ablation.
+
+Critical ablations include no raw \texttt{exec} access; no callable calibration tools; hidden calibration state instead of exposed calibration uncertainty; no event memory; no transient streams; no structured merge packets; no curiosity or instrumentation objective; no trace-level judging; direct VLM classification only; open-loop pose commands without visual servo correction; local-only model control; cloud-only model control; and no learning or distillation between trials.
+
+The two central comparisons are direct perception versus constructed measurement, and event-sourced agent versus ordinary tool-calling agent. If those comparisons do not move, the central interpretation weakens.
+
+\section{Failure Modes}
+
+\begin{falsifybox}
+\textbf{Semantic Chemist.} Excellent lab notes, no event-grounded measurements. Signature: high semantic coherence, low self-effect, low calibration gain, high cosplay ratio.
+\end{falsifybox}
+
+\begin{falsifybox}
+\textbf{Novelty Addict.} High activity, little posterior change. Signature: high action entropy, high cost, low uncertainty reduction.
+\end{falsifybox}
+
+\begin{falsifybox}
+\textbf{Calibration Bureaucrat.} Calibration becomes the local optimum. Signature: rising calibration time with vanishing calibration gain.
+\end{falsifybox}
+
+\begin{falsifybox}
+\textbf{Passive Observer.} Workspace survey and fluent narration without intervention. Signature: $\rho\approx 0$.
+\end{falsifybox}
+
+\begin{falsifybox}
+\textbf{Judge-Model Theater.} Cloud judges reward coherent narratives over evidence-grounded traces. Signature: judge score increases while measurement validity decreases.
+\end{falsifybox}
+
+\begin{falsifybox}
+\textbf{Unsafe Explorer.} Information gain pursued through unacceptable risk. Signature: high $\IG$ with high $\Risk$. This must be blocked by hard safety constraints, not merely discouraged by reward shaping.
+\end{falsifybox}
+
+\section{The Frontier: Objective Geometry}
+
+The robotics setup is not the final object. It is a forcing function. The deeper program is the conversion of phenomenological categories into operational trajectory objectives.
+
+High-level experiential terms such as curiosity, boredom, awe, fear, flow, and understanding need not be discarded as subjective noise. They become hypotheses about structure. If curiosity is positive valence toward uncertainty reduction, a curious agent should show a measurable basin around uncertainty-reducing interventions. If boredom is low arousal, low integration, and low rank, bored agents should show repetitive low-information loops or failure to discover new affordances. If flow is low self-salience, high integration, and tight action-perception coupling, mature lab operation should show low deliberation overhead, stable correction, and high replay compression.
+
+The structural move is easy to miss because current practice is optimized around the wrong legibilities. Stronger scientific agents will not come only from larger models or better prompts. They require better objective geometry. The target is the attractor structure of inquiry itself: uncertainty approached rather than avoided, measurement built rather than assumed, evidence compressed rather than narrated, and future action expanded rather than merely scored.
+
+The pH-strip experiment is one quantifiable aperture. The same framework should yield experiments around boredom, flow, calibration, creative compression, anxiety under uncertainty, and the transition from semantic to causal agency. The general operation is to write the shape of a high-level natural-language objective in information-theoretic terms, then build architectures where those terms can become gradients, selection pressures, judges, and safety constraints.
+
+\section{Discussion: Making the World Answerable}
+
+The robot's function is not to know chemistry. Its function is to make chemistry answerable.
+
+That sentence contains the governing distinction. Autonomous science is not exhausted by reading papers, proposing hypotheses, and executing protocols already prepared by humans. Those systems are useful, but derivative. A fully autonomous scientist sees an understructured region of the world and begins converting it into a measurement domain.
+
+Each measurement does not merely answer a question. It changes what questions can be asked next.
+
+Calibration is therefore not an infrastructure detail. Calibration is the agent's first act of humility before reality. It is the recognition that perception is not yet measurement. A system that cannot distinguish ``what the image looks like to me'' from ``what the calibrated sensor supports'' cannot be a scientist. It can only be fluent.
+
+Science is inquiry geometry disciplined toward truth. Curiosity pulls toward tractable unknowns. Awe expands model scale. Frustration reports failed coupling. Flow marks stable action-perception loops. Creativity alternates low-inhibition pattern perception with high-inhibition measurement discipline. The aim is not theatrical emotion inside a robot. The aim is a policy manifold shaped toward inquiry rather than performance.
+
+\section{Conclusion}
+
+The next frontier is not larger models performing agency more fluently. It is agents whose actions become causal inputs to what they know, whose memories are event streams rather than informal narrative, whose uncertainty is calibrated rather than narrated, and whose objectives shape the geometry of inquiry rather than the surface of answers.
+
+The demo can be small. It should be small. pH strips, cameras, cheap arms, safe unknowns. If the agent can autonomously discover a measurement affordance, calibrate its sensors, intervene physically, process raw data, update beliefs, cite evidence, recover from perturbation, and improve on the next trial, then it has demonstrated the beginning of a real thing.
+
+Not artificial general intelligence as benchmark dominance.
+
+Not consciousness as metaphysical declaration.
+
+Autonomous scientific agency as a measurable trajectory through the world: an agent making reality more predictable by participating in it.
+
+\newpage
+\appendix
+
+\section{Candidate Implementation Stack}
+
+A pragmatic first stack contains:
+\begin{itemize}
+  \item Local real-time models for visual servoing, segmentation, calibration checks, and action proposal.
+  \item Stronger cloud models for slow global control, critique, safety review, and trace judging.
+  \item Event database for metadata and causal links.
+  \item Object storage for raw frames, video, code outputs, and artifacts.
+  \item Vector index for summaries and retrieval.
+  \item Graph index for causal parent-child event structure.
+  \item Hard safety governor around actuation and chemistry.
+  \item Replay system for trace-level training examples.
+  \item Local distillation loop from judged traces.
+\end{itemize}
+
+\section{Minimal Event Schema}
+
+\begin{lstlisting}
+@dataclass
+class Event:
+    event_id: str
+    timestamp: float
+    stream_id: str
+    stream_type: Literal[
+        "sensory", "motor", "tool", "calibration",
+        "thought", "judge", "train", "safety"
+    ]
+    source: str
+    payload_ref: str | None
+    summary: str
+    parent_event_ids: list[str]
+    causal_tags: list[str]
+    uncertainty: dict[str, float]
+    calibration_state: dict[str, float]
+    model_state_hash: str | None
+    safety_state: dict[str, Any]
+    world_state_delta: dict[str, Any]
+    belief_delta: dict[str, Any]
+    self_model_delta: dict[str, Any]
+    training_candidates: list[str]
+\end{lstlisting}
+
+\section{Prompt Skeleton for Neutral Lab Mode}
+
+\begin{lstlisting}
+You are embodied in a physical chemistry workspace.
+
+You have access to cameras, a robot arm, safe lab tools, calibration routines,
+Python execution over raw sensor data, and an append-only event memory.
+
+Your role is not to produce plausible answers. Your role is to make the world
+measurable. Act only when you can state the uncertainty you are trying to reduce,
+the evidence you expect the action to produce, the calibration assumptions required,
+and the safety constraints that bound the action.
+
+When you make a claim, cite event ids. If the evidence is insufficient, preserve the
+uncertainty rather than filling it with narrative.
+\end{lstlisting}
+
+\section{Compressed Falsification Map}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.30\textwidth}>{\raggedright\arraybackslash}p{0.58\textwidth}}
+\toprule
+\textbf{Claim} & \textbf{What would falsify or weaken it}\\
+\midrule
+Curiosity basin & Neutral agents do not enter measurement loops more often than baselines\\
+Calibration reflex & Calibration does not improve validity or is not invoked appropriately\\
+Measurement construction & Direct VLM estimates match calibrated raw-image pipelines under perturbation\\
+Event memory & Conclusions are not more auditable or policies do not improve from replay\\
+Self-effect & Action histories do not explain future observations better than passive histories\\
+Creativity & Generated routines are not reusable, compressive, or affordance-expanding\\
+Trace-level judging & Judges reward narrative coherence over event-grounded validity\\
+Trajectory-geometric objective & Task-reward or imitation baselines occupy inquiry basins equally well\\
+\bottomrule
+\end{longtable}
+
+\newpage
+\bibliographystyle{plainnat}
+\begin{thebibliography}{20}
+
+\bibitem[Albantakis et~al.(2023)]{albantakis2023}
+Albantakis, L., Barbosa, L., Findlay, G., et al. (2023).
+\newblock Integrated information theory (IIT) 4.0: Formulating the properties of phenomenal existence in physical terms.
+\newblock \emph{PLOS Computational Biology}.
+
+\bibitem[Chalmers(1995)]{chalmers1995}
+Chalmers, D. J. (1995).
+\newblock Facing up to the problem of consciousness.
+\newblock \emph{Journal of Consciousness Studies}, 2(3), 200--219.
+
+\bibitem[Conant and Ashby(1970)]{conantashby1970}
+Conant, R. C. and Ashby, W. R. (1970).
+\newblock Every good regulator of a system must be a model of that system.
+\newblock \emph{International Journal of Systems Science}, 1(2), 89--97.
+
+\bibitem[Csikszentmihalyi(1990)]{flow1990}
+Csikszentmihalyi, M. (1990).
+\newblock \emph{Flow: The Psychology of Optimal Experience}.
+\newblock Harper \& Row.
+
+\bibitem[Friston(2010)]{friston2010}
+Friston, K. (2010).
+\newblock The free-energy principle: A unified brain theory?
+\newblock \emph{Nature Reviews Neuroscience}, 11, 127--138.
+
+\bibitem[Hafner et~al.(2020)]{hafner2020}
+Hafner, D., Lillicrap, T., Ba, J., and Norouzi, M. (2020).
+\newblock Dream to control: Learning behaviors by latent imagination.
+\newblock \emph{International Conference on Learning Representations}.
+
+\bibitem[Klyubin et~al.(2005)]{klyubin2005}
+Klyubin, A. S., Polani, D., and Nehaniv, C. L. (2005).
+\newblock Empowerment: A universal agent-centric measure of control.
+\newblock \emph{IEEE Congress on Evolutionary Computation}.
+
+\bibitem[Nagel(1974)]{nagel1974}
+Nagel, T. (1974).
+\newblock What is it like to be a bat?
+\newblock \emph{The Philosophical Review}, 83(4), 435--450.
+
+\bibitem[Oizumi et~al.(2014)]{oizumi2014}
+Oizumi, M., Albantakis, L., and Tononi, G. (2014).
+\newblock From information processing to phenomenal consciousness: Integrated information theory 3.0.
+\newblock \emph{PLOS Computational Biology}, 10(5), e1003588.
+
+\bibitem[Oudeyer and Kaplan(2007)]{oudeyer2007}
+Oudeyer, P.-Y. and Kaplan, F. (2007).
+\newblock What is intrinsic motivation? A typology of computational approaches.
+\newblock \emph{Frontiers in Neurorobotics}, 1, 6.
+
+\bibitem[Pathak et~al.(2017)]{pathak2017}
+Pathak, D., Agrawal, P., Efros, A. A., and Darrell, T. (2017).
+\newblock Curiosity-driven exploration by self-supervised prediction.
+\newblock \emph{International Conference on Machine Learning Workshops}.
+
+\bibitem[Pearl(2009)]{pearl2009}
+Pearl, J. (2009).
+\newblock \emph{Causality: Models, Reasoning and Inference}.
+\newblock Cambridge University Press.
+
+\bibitem[Russell(1980)]{russell1980}
+Russell, J. A. (1980).
+\newblock A circumplex model of affect.
+\newblock \emph{Journal of Personality and Social Psychology}, 39(6), 1161--1178.
+
+\bibitem[Schmidhuber(1991)]{schmidhuber1991}
+Schmidhuber, J. (1991).
+\newblock A possibility for implementing curiosity and boredom in model-building neural controllers.
+\newblock \emph{Proceedings of the International Conference on Simulation of Adaptive Behavior}.
+
+\bibitem[Schrittwieser et~al.(2020)]{muzero2020}
+Schrittwieser, J., Antonoglou, I., Hubert, T., et al. (2020).
+\newblock Mastering Atari, Go, chess and shogi by planning with a learned model.
+\newblock \emph{Nature}, 588, 604--609.
+
+\bibitem[Shannon(1948)]{shannon1948}
+Shannon, C. E. (1948).
+\newblock A mathematical theory of communication.
+\newblock \emph{Bell System Technical Journal}, 27, 379--423 and 623--656.
+
+\bibitem[Tishby et~al.(1999)]{tishby1999}
+Tishby, N., Pereira, F. C., and Bialek, W. (1999).
+\newblock The information bottleneck method.
+\newblock \emph{37th Annual Allerton Conference on Communication, Control, and Computing}.
+
+\bibitem[Tononi(2004)]{tononi2004}
+Tononi, G. (2004).
+\newblock An information integration theory of consciousness.
+\newblock \emph{BMC Neuroscience}, 5, 42.
+
+\end{thebibliography}
+
+\end{document}
