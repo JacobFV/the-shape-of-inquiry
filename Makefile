@@ -12,6 +12,7 @@
 TEX     := the_shape_of_inquiry.tex
 PDF     := $(TEX:.tex=.pdf)
 HTML    := index.html
+FIG     := robot_lab_scene.png
 PANDOC  := .paper-pandoc.html
 
 .PHONY: all pdf html web clean cleanall
@@ -20,7 +21,7 @@ all: pdf html
 
 pdf: $(PDF)
 
-$(PDF): $(TEX)
+$(PDF): $(TEX) $(FIG)
 	latexmk -pdf -interaction=nonstopmode -halt-on-error $(TEX)
 
 html: $(HTML)
