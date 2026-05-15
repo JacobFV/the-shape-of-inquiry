@@ -532,15 +532,15 @@ uncertainty rather than filling it with narrative.</code></pre>
 </div>
 
     </main>
-    <aside class="margin">
-      <div class="note-card"><strong>Reader tools.</strong><br>Select text to highlight or copy a quote. Use section hashes for direct sharing.</div>
-      <div class="note-card"><strong>Mobile.</strong><br>The layout collapses into a readable column; math and tables scroll horizontally.</div>
-      <div class="note-card"><strong>Build.</strong><br>This site is generated from <code>main.tex</code> by <code>make tex2web</code>.</div>
+    <aside class="margin" aria-label="Notes">
+      <p class="margin-line">select: hl / copy</p>
+      <p class="margin-line">heading #: link</p>
+      <p class="margin-line"><code>make tex2web</code></p>
     </aside>
   </div>
   <div class="popover" id="selectionPopover">
-    <button id="highlightSel">highlight</button>
-    <button id="copyQuote">copy quote</button>
+    <button id="highlightSel">hl</button>
+    <button id="copyQuote">copy</button>
   </div>
   <div class="toast" id="toast"></div>
   <script src="site.js"></script>
