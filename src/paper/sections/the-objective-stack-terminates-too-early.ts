@@ -6,7 +6,7 @@
 export const theObjectiveStackTerminatesTooEarlyLines: readonly string[] = [
   "\\section{The Objective Stack Terminates Too Early}",
   "",
-  "Next-token prediction, imitation learning, task rewards, and scalar preference models dominate because they are legible. They are optimizable. They fit the existing apparatus. Their failure mode follows from the same fact: they shape local continuation surfaces while leaving the deeper geometry of inquiry underspecified.",
+  "Next-token prediction, imitation learning, task rewards \\citep{suttonbarto2018}, and scalar preference models dominate because they are legible. They are optimizable. They fit the existing apparatus. Their failure mode follows from the same fact: they shape local continuation surfaces while leaving the deeper geometry of inquiry underspecified.",
   "",
   "A system trained to continue text can inherit the language of curiosity. A system trained to imitate scientists can produce scientist-like traces. A system trained on task success can become efficient at exploiting narrow paths through a task distribution. None of these conditions forces calibrated evidence to dominate plausible narration. None forces uncertainty reduction to dominate activity. None forces measurement construction to dominate answer production.",
   "",

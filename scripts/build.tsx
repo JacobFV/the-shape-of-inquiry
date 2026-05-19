@@ -258,6 +258,22 @@ ${renderLatexBody()}
 `;
 }
 
+// Build {key -> {author, year}} from \bibitem[Author(Year)]{key} labels so
+// that pandoc preprocessing can resolve \citep / \citet without duplicating
+// bibliography data here. natbib handles the same commands on the PDF path.
+function buildCitationMap() {
+  const map = new Map<string, {author: string; year: string}>();
+  const re = /\\bibitem\[([^\]]+)\]\{([^}]+)\}/g;
+  for (const m of paper.body.matchAll(re)) {
+    const label = m[1].replace(/~/g, ' ');
+    const labelMatch = label.match(/^(.+?)\((\d{4}[a-z]?)\)$/);
+    if (labelMatch) {
+      map.set(m[2], {author: labelMatch[1].trim(), year: labelMatch[2]});
+    }
+  }
+  return map;
+}
+
 function preprocessForPandoc() {
   let tex = paper.body.replace(/\\PaperFigure\{([^}]+)\}/g, (_match, id) => `\n\nFIGUREMARKER_${id}\n\n`);
 
@@ -270,6 +286,20 @@ function preprocessForPandoc() {
     tex = tex.replace(new RegExp(String.raw`\\begin\{${env}\}(?:\[[^\]]*\])?`, 'g'), String.raw`\begin{quote}` + `\n` + String.raw`\textbf{${title}.} `);
     tex = tex.replace(new RegExp(String.raw`\\end\{${env}\}`, 'g'), String.raw`\end{quote}`);
   }
+
+  const citeMap = buildCitationMap();
+  const resolve = (keys: string) =>
+    keys.split(',').map((k) => citeMap.get(k.trim())).filter(Boolean) as Array<{author: string; year: string}>;
+  tex = tex.replace(/\\citep\{([^}]+)\}/g, (_m, keys: string) => {
+    const refs = resolve(keys);
+    if (!refs.length) return _m;
+    return `(${refs.map((r) => `${r.author}, ${r.year}`).join('; ')})`;
+  });
+  tex = tex.replace(/\\citet\{([^}]+)\}/g, (_m, keys: string) => {
+    const refs = resolve(keys);
+    if (!refs.length) return _m;
+    return refs.map((r) => `${r.author} (${r.year})`).join('; ');
+  });
 
   return tex.replace(/\\begin\{lstlisting\}/g, String.raw`\begin{verbatim}`).replace(/\\end\{lstlisting\}/g, String.raw`\end{verbatim}`);
 }

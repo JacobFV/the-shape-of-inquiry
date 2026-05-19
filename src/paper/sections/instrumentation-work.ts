@@ -14,8 +14,8 @@ export const instrumentationWorkLines: readonly string[] = [
   "\\end{equation}",
   "Instrumentation work over an interval $[t,t+k]$ is approximately",
   "\\begin{equation}",
-  "  \\mathcal{W}_{\\mathrm{inst}} = \\Delta \\MI(\\Theta;O,A,K,M) + \\lambda\\Delta\\kappa + \\mu\\Delta\\A - \\nu\\Cost - \\omega\\Risk.",
+  "  \\mathcal{W}_{\\mathrm{inst}} = \\Delta \\MI(\\Theta;O,A,K,M) + \\lambda\\Delta\\kappa + \\mu\\Delta\\A - \\nu\\Cost - \\omega\\Risk,",
   "\\end{equation}",
-  "The equation is not an answer score. It measures the degree to which the system has made future answers less arbitrary. A correct guess from a biased visual prior can have high task score and low instrumentation work. A calibrated measurement procedure that can be replayed, audited, and transferred has high instrumentation work even when the final classification remains uncertain.",
+  "where the mutual-information increment is taken in the sense of \\citet{shannon1948}. The equation is not an answer score. It measures the degree to which the system has made future answers less arbitrary. A correct guess from a biased visual prior can have high task score and low instrumentation work. A calibrated measurement procedure that can be replayed, audited, and transferred has high instrumentation work even when the final classification remains uncertain.",
   "",
 ] as const;

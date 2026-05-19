@@ -6,7 +6,7 @@
 export const theChemistryRobotAsExperimentalApertureLines: readonly string[] = [
   "\\section{The Chemistry Robot as Experimental Aperture}",
   "",
-  "The physical setup remains deliberately modest: disposable glassware, safe unknown powders and solutions, pH strips, a color calibration card, a thermometer, a multimeter or conductivity probe, multiple cameras, and a low-cost arm with interchangeable manipulators. Chemical novelty is secondary. Physical closure is the invariant.",
+  "The physical setup remains deliberately modest, in contrast with full self-driving laboratories such as the mobile robotic chemist of \\citet{burger2020}: disposable glassware, safe unknown powders and solutions, pH strips, a color calibration card, a thermometer, a multimeter or conductivity probe, multiple cameras, and a low-cost arm with interchangeable manipulators. Chemical novelty is secondary. Physical closure is the invariant.",
   "",
   "A sufficient minimal tool interface is:",
   "\\begin{lstlisting}",
