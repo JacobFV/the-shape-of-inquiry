@@ -22,26 +22,35 @@ jobs:
 
       - run: npm ci
 
-      - name: Install LaTeX, pandoc, ImageMagick
+      - name: Install LaTeX, pandoc, ImageMagick, librsvg
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             latexmk \
             pandoc \
             imagemagick \
+            librsvg2-bin \
             texlive-latex-recommended \
             texlive-latex-extra \
             texlive-fonts-recommended \
             texlive-fonts-extra \
             texlive-bibtex-extra
+          # librsvg2-bin provides rsvg-convert, which ImageMagick uses as its
+          # SVG delegate. Without it, `convert foo.svg foo.png` falls back to
+          # ImageMagick's internal MSVG renderer (blocked by policy.xml) and
+          # fails with: "delegate failed `'rsvg-convert' -o '%o' '%i''".
 
       - name: Allow ImageMagick to rasterize SVG/PDF
         run: |
-          # Ubuntu ships a policy.xml that blocks SVG/PDF coders.
+          # Ubuntu's policy.xml blocks the PDF / SVG coders by default. We
+          # also loosen the SVG entry as a defensive measure — rsvg-convert
+          # is the primary path, but some legacy code paths fall back to the
+          # internal coder. Using `#` as the sed delimiter to keep the
+          # `read|write` value intact.
           POLICY=/etc/ImageMagick-6/policy.xml
           if [ -f "$POLICY" ]; then
-            sudo sed -i 's|rights="none" pattern="SVG"|rights="read|write" pattern="SVG"|g' "$POLICY"
-            sudo sed -i 's|rights="none" pattern="PDF"|rights="read|write" pattern="PDF"|g' "$POLICY"
+            sudo sed -i 's#rights="none" pattern="SVG"#rights="read|write" pattern="SVG"#g' "$POLICY"
+            sudo sed -i 's#rights="none" pattern="PDF"#rights="read|write" pattern="PDF"#g' "$POLICY"
           fi
 
       - run: npm run build
