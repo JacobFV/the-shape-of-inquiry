@@ -62,6 +62,11 @@ function latexEscapeCaption(value: string) {
 }
 
 function renderFigures({skipPng = false}: {skipPng?: boolean} = {}) {
+  // Inline the lab photo as a base64 data URI for BOTH the LaTeX path and
+  // the web path. Reason: browsers block external resource references inside
+  // SVGs loaded via <img> tag (sandbox), so "../images/foo.png" would
+  // silently fail. A data URI works in all contexts (browsers, ImageMagick,
+  // inline-svg) and removes the path-relative coupling entirely.
   const imageHref = `data:image/png;base64,${readFileSync(labImage).toString('base64')}`;
   ensureDir(figureBuildDir);
   ensureDir(path.join(webDir, 'assets', 'figures'));
@@ -69,13 +74,10 @@ function renderFigures({skipPng = false}: {skipPng?: boolean} = {}) {
   for (const id of figureIds) {
     const spec = figures[id];
     const svg = `<?xml version="1.0" encoding="UTF-8"?>\n${renderToStaticMarkup(<spec.component imageHref={imageHref} />)}\n`;
-    const webSvg = `<?xml version="1.0" encoding="UTF-8"?>\n${renderToStaticMarkup(
-      <spec.component imageHref="../images/robot_lab_scene.png" />,
-    )}\n`;
     const svgPath = path.join(figureBuildDir, spec.file);
     const webPath = path.join(webDir, 'assets', 'figures', spec.file);
     writeFileSync(svgPath, svg);
-    writeFileSync(webPath, webSvg);
+    writeFileSync(webPath, svg);
 
     if (skipPng) continue;
     const pngPath = svgPath.replace(/\.svg$/, '.png');
