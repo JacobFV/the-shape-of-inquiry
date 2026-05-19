@@ -1,0 +1,54 @@
+name: Deploy to Neocities
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: neocities-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Install LaTeX, pandoc, ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk \
+            pandoc \
+            imagemagick \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-bibtex-extra
+
+      - name: Allow ImageMagick to rasterize SVG/PDF
+        run: |
+          # Ubuntu ships a policy.xml that blocks SVG/PDF coders.
+          POLICY=/etc/ImageMagick-6/policy.xml
+          if [ -f "$POLICY" ]; then
+            sudo sed -i 's|rights="none" pattern="SVG"|rights="read|write" pattern="SVG"|g' "$POLICY"
+            sudo sed -i 's|rights="none" pattern="PDF"|rights="read|write" pattern="PDF"|g' "$POLICY"
+          fi
+
+      - run: npm run build
+
+      - name: Deploy to Neocities
+        uses: bcomnes/deploy-to-neocities@v3
+        with:
+          api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
+          cleanup: false
+          dist_dir: web

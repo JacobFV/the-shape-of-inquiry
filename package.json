@@ -6,6 +6,8 @@
   "description": "TSX-first source and build pipeline for The Shape of Inquiry.",
   "scripts": {
     "build": "tsx scripts/build.tsx",
+    "build:web": "tsx scripts/build.tsx --skip-pdf",
+    "dev": "tsx scripts/dev.tsx",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf build web the_shape_of_inquiry.pdf"
   },

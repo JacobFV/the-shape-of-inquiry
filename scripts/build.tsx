@@ -61,7 +61,7 @@ function latexEscapeCaption(value: string) {
   return value.replace(/&/g, '\\&').replace(/%/g, '\\%').replace(/#/g, '\\#');
 }
 
-function renderFigures() {
+function renderFigures({skipPng = false}: {skipPng?: boolean} = {}) {
   const imageHref = `data:image/png;base64,${readFileSync(labImage).toString('base64')}`;
   ensureDir(figureBuildDir);
   ensureDir(path.join(webDir, 'assets', 'figures'));
@@ -77,6 +77,7 @@ function renderFigures() {
     writeFileSync(svgPath, svg);
     writeFileSync(webPath, webSvg);
 
+    if (skipPng) continue;
     const pngPath = svgPath.replace(/\.svg$/, '.png');
     run('convert', [
       '-background',
@@ -335,7 +336,10 @@ function writeSite(article: string, tocHtml: string) {
   writeFileSync(path.join(webDir, 'fragments', 'toc.html'), tocHtml);
   copyFileSync(path.join(templateDir, 'style.css'), path.join(webDir, 'style.css'));
   copyFileSync(path.join(templateDir, 'site.js'), path.join(webDir, 'site.js'));
-  copyFileSync(path.join(root, 'the_shape_of_inquiry.pdf'), path.join(webDir, 'the_shape_of_inquiry.pdf'));
+  const pdfPath = path.join(root, 'the_shape_of_inquiry.pdf');
+  if (existsSync(pdfPath)) {
+    copyFileSync(pdfPath, path.join(webDir, 'the_shape_of_inquiry.pdf'));
+  }
 
   const index = `<!doctype html>
 <html lang="en">
@@ -415,14 +419,18 @@ function buildPdf() {
   copyFileSync(path.join(buildDir, 'the_shape_of_inquiry.pdf'), path.join(root, 'the_shape_of_inquiry.pdf'));
 }
 
-function main() {
+export function build({skipPdf = false}: {skipPdf?: boolean} = {}) {
   rmSync(buildDir, {recursive: true, force: true});
   rmSync(webDir, {recursive: true, force: true});
   ensureDir(buildDir);
   ensureDir(webDir);
-  renderFigures();
-  buildPdf();
+  renderFigures({skipPng: skipPdf});
+  if (!skipPdf) buildPdf();
   buildWeb();
 }
 
-main();
+// Run directly only when invoked as a script (not when imported).
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const skipPdf = process.argv.includes('--skip-pdf');
+  build({skipPdf});
+}
