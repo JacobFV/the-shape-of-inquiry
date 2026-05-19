@@ -1,21 +1,23 @@
 SHELL := /bin/bash
 
-TEX      := main.tex
 OUT      := the_shape_of_inquiry
 BUILD    := build
 WEB      := web
 PDF      := $(OUT).pdf
 
-.PHONY: tex2pdf tex2web clean
+.PHONY: all build pdf web typecheck clean
 
-tex2pdf:
-	mkdir -p $(BUILD)
-	latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=$(BUILD) -jobname=$(OUT) $(TEX)
-	cp $(BUILD)/$(OUT).pdf $(PDF)
+all: build
 
-tex2web: tex2pdf
-	python3 scripts/build_web.py $(TEX) $(PDF) $(WEB)
+build:
+	npm run build
+
+pdf: build
+
+web: build
+
+typecheck:
+	npm run typecheck
 
 clean:
-	rm -rf $(BUILD) $(WEB) $(PDF)
-	latexmk -C -outdir=$(BUILD) -jobname=$(OUT) $(TEX) || true
+	npm run clean

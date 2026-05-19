@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Shape of Inquiry</title>
-  <meta name="description" content="The Real Work Behind Work: an event-sourced account of autonomous scientific agency.">
+  <meta name="description" content="A preliminary theoretical and experimental specification of scientific agency as measurement construction.">
   <script defer src="https://unpkg.com/htmx.org@2.0.4"></script>
   
 <script>
@@ -109,9 +109,9 @@ window.MathJax = {
 
 <figure class="paper-figure" id="fig:real-work">
   <div class="figure-shell">
-    <img src="assets/figures/figure-1.png" alt="The real work behind work">
+    <img src="assets/figures/real-work.svg" alt="The real work behind work">
   </div>
-  <figcaption><strong>The real work behind work.</strong> The real work behind work. Answer production is downstream of world-preparation. The relevant trajectory converts understructured reality into a measurement domain: calibration, instrument construction, intervention, evidence compression, and affordance expansion.</figcaption>
+  <figcaption><strong>The real work behind work.</strong> Answer production is downstream of world-preparation. The relevant trajectory converts understructured reality into a measurement domain: calibration, instrument construction, intervention, evidence compression, and affordance expansion.</figcaption>
 </figure>
 
 <h1 id="the-objective-stack-terminates-too-early" id="the-objective-stack-terminates-too-early">The Objective Stack Terminates Too Early<button class="copy-anchor" data-anchor="the-objective-stack-terminates-too-early" aria-label="Copy link to The Objective Stack Terminates Too Early">#</button></h1>
@@ -153,51 +153,14 @@ window.MathJax = {
 <h2 id="intelligence-as-transition-geometry-alignment" id="intelligence-as-transition-geometry-alignment">Intelligence as Transition-Geometry Alignment<button class="copy-anchor" data-anchor="intelligence-as-transition-geometry-alignment" aria-label="Copy link to Intelligence as Transition-Geometry Alignment">#</button></h2>
 <p>Benchmark score is not the invariant. The useful object is alignment between internal transition geometry and environmental transition geometry.</p>
 <p>Let <span class="math display">\[D_W(i,j)=d\left(p(e_{t+1:t+k}\mid h_i,a_i),\,p(e_{t+1:t+k}\mid h_j,a_j)\right)\]</span> be a distance matrix over world/event trajectories, and let <span class="math display">\[D_Z(i,j)=d\left(z_{t+1:t+k}^{(i)},z_{t+1:t+k}^{(j)}\right)\]</span> be the corresponding internal latent transition geometry. A representational similarity score gives one proxy: <span class="math display">\[\mathcal{I}_{\mathrm{align}} = \mathrm{RSA}(D_W,D_Z).\]</span> This remains insufficient by itself. A passive camera can learn correlations. Intervention must enter the measure: <span class="math display">\[\mathcal{I}_{\mathrm{sci}} = \mathcal{I}_{\mathrm{align}} + \lambda_1\,\mathrm{InterventionSuccess} + \lambda_2\,\mathrm{Transfer} + \lambda_3\,\mathrm{Recovery}.\]</span> A scientific agent becomes intelligent in the relevant sense when its internal couplings mirror the world’s causal couplings well enough to support intervention, transfer, and recovery under perturbation.</p>
-<figure id="fig:objective-shaping">
-<img src="assets/robot_lab_scene.png" style="width:92.0%" />
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;"><strong>Signal</strong></th>
-<th style="text-align: left;">Formula</th>
-<th style="text-align: left;">Function</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>Information gain</strong></td>
-<td style="text-align: left;"><span class="math inline">\(IG(a)=H(\Theta\mid h_t)-H(\Theta\mid h_t,a,o&#39;)\)</span></td>
-<td style="text-align: left;">prefer actions that reduce latent uncertainty</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Self-effect</strong></td>
-<td style="text-align: left;"><span class="math inline">\(\rho_\tau=I(A_t;O_{t+\tau}\mid O_{\le t})/H(O_{t+\tau}\mid O_{\le t})\)</span></td>
-<td style="text-align: left;">keep actions load-bearing on future observation</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Calibration gain</strong></td>
-<td style="text-align: left;"><span class="math inline">\(\Delta\kappa(a)=U_{pre}-U_{post}\)</span></td>
-<td style="text-align: left;">convert perception into trustworthy evidence</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Affordance expansion</strong></td>
-<td style="text-align: left;"><span class="math inline">\(\Delta A(a)\)</span></td>
-<td style="text-align: left;">enlarge the set of reachable measurements</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Creative compression</strong></td>
-<td style="text-align: left;"><span class="math inline">\(C_t=N_tIG_t\Delta A_t\max\{0,MDL(M_t)-MDL(M_{t+1})\}\)</span></td>
-<td style="text-align: left;">reward reusable measurement routines</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Counter-gradients</strong></td>
-<td style="text-align: left;"><span class="math inline">\(-Risk,-Cost,-Goodhart,-Cosplay\)</span></td>
-<td style="text-align: left;">suppress unsafe or merely semantic trajectories</td>
-</tr>
-</tbody>
-</table>
-<figcaption>Objective shaping in the space of inquiry. The real lab substrate is not decoration; it is the causal surface through which objective terms acquire meaning. Trajectory-level signals shape policy toward measurement construction, while counter-gradients suppress unsafe exploration, proxy exploitation, and semantic performance without evidence.</figcaption>
+
+<figure class="paper-figure" id="fig:objective-shaping">
+  <div class="figure-shell">
+    <img src="assets/figures/objective-shaping.svg" alt="Objective shaping in the space of inquiry">
+  </div>
+  <figcaption><strong>Objective shaping in the space of inquiry.</strong> The real lab substrate is not decoration; it is the causal surface through which objective terms acquire meaning. Trajectory-level signals shape policy toward measurement construction, while counter-gradients suppress unsafe exploration, proxy exploitation, and semantic performance without evidence.</figcaption>
 </figure>
+
 <h1 id="instrumentation-work" id="instrumentation-work">Instrumentation Work<button class="copy-anchor" data-anchor="instrumentation-work" aria-label="Copy link to Instrumentation Work">#</button></h1>
 <p>Instrumentation work names the conversion of a patch of reality into a measurement domain.</p>
 <p>Let <span class="math inline">\(\Theta\)</span> be latent variables of interest, <span class="math inline">\(O\)</span> observations, <span class="math inline">\(A\)</span> actions, <span class="math inline">\(K\)</span> calibration states, and <span class="math inline">\(M\)</span> measurement procedures. A measurement procedure maps observations and calibration into an estimate and uncertainty: <span class="math display">\[m:(O,K)\mapsto (\hat{\theta}, U(\hat{\theta})).\]</span> Instrumentation work over an interval <span class="math inline">\([t,t+k]\)</span> is approximately <span class="math display">\[\mathcal{W}_{\mathrm{inst}} = \Delta \MI(\Theta;O,A,K,M) + \lambda\Delta\kappa + \mu\Delta\A - \nu\Cost - \omega\Risk.\]</span> The equation is not an answer score. It measures the degree to which the system has made future answers less arbitrary. A correct guess from a biased visual prior can have high task score and low instrumentation work. A calibrated measurement procedure that can be replayed, audited, and transferred has high instrumentation work even when the final classification remains uncertain.</p>
@@ -243,9 +206,9 @@ training_candidates</code></pre>
 
 <figure class="paper-figure" id="fig:event-agent">
   <div class="figure-shell">
-    <img src="assets/figures/figure-3.png" alt="Event-sourced embodied scientific agent">
+    <img src="assets/figures/event-agent.svg" alt="Event-sourced embodied scientific agent">
   </div>
-  <figcaption><strong>Event-sourced embodied scientific agent.</strong> Event-sourced embodied scientific agent. The architecture is a physical action--observation loop before it is a conversational interface. Typed events provide the substrate for memory, auditability, judging, and policy improvement; the global belief ledger is a structured belief state, not a transcript.</figcaption>
+  <figcaption><strong>Event-sourced embodied scientific agent.</strong> The architecture is a physical action-observation loop before it is a conversational interface. Typed events provide the substrate for memory, auditability, judging, and policy improvement; the global belief ledger is a structured belief state, not a transcript.</figcaption>
 </figure>
 
 <h1 id="the-objective-as-trajectory-functional" id="the-objective-as-trajectory-functional">The Objective as Trajectory Functional<button class="copy-anchor" data-anchor="the-objective-as-trajectory-functional" aria-label="Copy link to The Objective as Trajectory Functional">#</button></h1>
@@ -285,9 +248,9 @@ store(event)                # append typed event</code></pre>
 
 <figure class="paper-figure" id="fig:lab-scene">
   <div class="figure-shell">
-    <img src="assets/figures/figure-4.png" alt="Compact autonomous chemistry workspace">
+    <img src="assets/figures/lab-scene.svg" alt="Compact autonomous chemistry workspace">
   </div>
-  <figcaption><strong>Compact autonomous chemistry workspace.</strong> Compact autonomous chemistry workspace. The scene contains the core physical ingredients of the proposed measurement-construction loop: robot arm and end-effector, multiple cameras, pH strips, calibration reference, disposable glassware, safe unknown samples, and local controller hardware. The point of the image is not polish; it is the contact surface where semantic agency is forced into calibration, intervention, and event-grounded evidence.</figcaption>
+  <figcaption><strong>Compact autonomous chemistry workspace.</strong> The scene contains the core physical ingredients of the proposed measurement-construction loop: robot arm and end-effector, multiple cameras, pH strips, calibration reference, disposable glassware, safe unknown samples, and local controller hardware. The point of the image is not polish; it is the contact surface where semantic agency is forced into calibration, intervention, and event-grounded evidence.</figcaption>
 </figure>
 
 <p>A successful trace has the following structure:</p>
@@ -537,7 +500,7 @@ uncertainty rather than filling it with narrative.</code></pre>
         <span class="margin-title">notes</span>
         <span class="margin-count" id="noteCount">0</span>
       </div>
-      <p class="margin-hint">select text → hl. notes persist locally.</p>
+      <p class="margin-hint">select text -> hl. notes persist locally.</p>
       <div class="margin-list" id="marginList"></div>
       <p class="margin-foot"><code>localstorage</code></p>
     </aside>

@@ -1,0 +1,23 @@
+{
+  "name": "the-shape-of-inquiry",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "TSX-first source and build pipeline for The Shape of Inquiry.",
+  "scripts": {
+    "build": "tsx scripts/build.tsx",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf build web the_shape_of_inquiry.pdf"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}
